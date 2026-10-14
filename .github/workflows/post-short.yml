@@ -51,6 +51,7 @@ jobs:
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           NICHE: ${{ vars.NICHE }}
           PRIVACY_STATUS: ${{ vars.PRIVACY_STATUS }}
           PLATFORMS: ${{ github.event.inputs.platforms || vars.PLATFORMS }}

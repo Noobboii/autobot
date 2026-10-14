@@ -15,7 +15,7 @@ ROOT = Path(__file__).parent
 HISTORY_FILE = ROOT / "data" / "history.json"
 
 NICHE = os.environ.get("NICHE") or "surprising science and nature facts"
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL") or "gemini-2.5-flash"
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL") or "gemini-3.8-flash"
 VOICE = os.environ.get("TTS_VOICE") or "en-US-AndrewNeural"
 DRY_RUN = os.environ.get("DRY_RUN", "0") == "1"
 
@@ -61,11 +61,18 @@ Return ONLY JSON with these keys:
     for attempt in range(3):
         r = requests.post(url, params={"key": key}, json=body, timeout=90)
         if r.status_code == 200:
-            text = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+            parts = r.json()["candidates"][0]["content"].get("parts", [])
+            text = "".join(p.get("text", "") for p in parts if not p.get("thought"))
             text = re.sub(r"^```(?:json)?|```$", "", text.strip()).strip()
-            data = json.loads(text)
+            try:
+                data = json.loads(text)
+            except ValueError:
+                log(f"Gemini attempt {attempt + 1} returned non-JSON: {text[:200]}")
+                continue
             if data.get("title") and data.get("script"):
                 return data
+            log(f"Gemini attempt {attempt + 1} missing title or script")
+            continue
         log(f"Gemini attempt {attempt + 1} failed: {r.status_code} {r.text[:300]}")
     raise RuntimeError("Could not generate script")
 
