@@ -1,0 +1,75 @@
+name: Post a Short
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+    - cron: "47 12 * * *"
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: "Only post to these (comma separated, blank = all configured)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: post-short
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ffmpeg and fonts
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      - name: Make and publish the Short
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          NICHE: ${{ vars.NICHE }}
+          PRIVACY_STATUS: ${{ vars.PRIVACY_STATUS }}
+          PLATFORMS: ${{ github.event.inputs.platforms || vars.PLATFORMS }}
+        run: python bot.py
+
+      - name: Keep the video if something failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unposted-video
+          path: output.mp4
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Save history
+        if: always()
+        run: |
+          git config user.name "shorts-bot"
+          git config user.email "shorts-bot@users.noreply.github.com"
+          git add data/history.json
+          git diff --cached --quiet || git commit -m "Log posted short"
+          git pull --rebase -q && git push
