@@ -6,6 +6,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -37,6 +38,60 @@ def save_history(history):
     HISTORY_FILE.write_text(json.dumps(history, indent=2, ensure_ascii=False))
 
 
+GEMINI_API = "https://generativelanguage.googleapis.com/v1beta"
+RETRYABLE = {429, 500, 502, 503, 504}
+SKIP_MODEL_WORDS = ("image", "tts", "audio", "live", "embedding", "vision", "exp", "preview", "thinking")
+
+
+def gemini_fallback_models(key, tried):
+    try:
+        r = requests.get(f"{GEMINI_API}/models", params={"key": key, "pageSize": 200}, timeout=30)
+        r.raise_for_status()
+    except Exception as e:
+        log(f"Could not list Gemini models: {e}")
+        return []
+    names = []
+    for m in r.json().get("models", []):
+        name = m.get("name", "").removeprefix("models/")
+        if "generateContent" not in m.get("supportedGenerationMethods", []):
+            continue
+        if "flash" not in name or any(w in name for w in SKIP_MODEL_WORDS) or name in tried:
+            continue
+        names.append(name)
+    names.sort(key=lambda n: ("lite" in n, [-int(x) if x.isdigit() else 0 for x in re.split(r"[.-]", n)]))
+    log(f"Fallback Gemini models available: {names[:5]}")
+    return names[:4]
+
+
+def ask_gemini(key, model, body, waits):
+    url = f"{GEMINI_API}/models/{model}:generateContent"
+    for attempt, wait in enumerate(waits + [None], start=1):
+        try:
+            r = requests.post(url, params={"key": key}, json=body, timeout=120)
+        except requests.RequestException as e:
+            log(f"{model} attempt {attempt}: network error {e}")
+            r = None
+        if r is not None and r.status_code == 200:
+            parts = r.json().get("candidates", [{}])[0].get("content", {}).get("parts", [])
+            text = "".join(p.get("text", "") for p in parts if not p.get("thought"))
+            text = re.sub(r"^```(?:json)?|```$", "", text.strip()).strip()
+            try:
+                data = json.loads(text)
+            except ValueError:
+                log(f"{model} attempt {attempt}: reply was not JSON: {text[:200]}")
+                data = {}
+            if data.get("title") and data.get("script"):
+                return data, None
+        elif r is not None:
+            log(f"{model} attempt {attempt}: {r.status_code} {r.text[:200]}")
+            if r.status_code not in RETRYABLE:
+                return None, r.status_code
+        if wait is not None:
+            log(f"Retrying {model} in {wait}s")
+            time.sleep(wait)
+    return None, "exhausted"
+
+
 def generate_script(history):
     key = os.environ["GEMINI_API_KEY"]
     recent = [h["title"] for h in history[-60:]]
@@ -53,28 +108,22 @@ Return ONLY JSON with these keys:
 "visual_keywords": list of 4 short stock-footage search terms (2-3 words each) that match the script in order,
 "description": 2-3 sentence YouTube description,
 "tags": list of 8 short tags"""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
     body = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 1.0, "responseMimeType": "application/json"},
     }
-    for attempt in range(3):
-        r = requests.post(url, params={"key": key}, json=body, timeout=90)
-        if r.status_code == 200:
-            parts = r.json()["candidates"][0]["content"].get("parts", [])
-            text = "".join(p.get("text", "") for p in parts if not p.get("thought"))
-            text = re.sub(r"^```(?:json)?|```$", "", text.strip()).strip()
-            try:
-                data = json.loads(text)
-            except ValueError:
-                log(f"Gemini attempt {attempt + 1} returned non-JSON: {text[:200]}")
-                continue
-            if data.get("title") and data.get("script"):
-                return data
-            log(f"Gemini attempt {attempt + 1} missing title or script")
-            continue
-        log(f"Gemini attempt {attempt + 1} failed: {r.status_code} {r.text[:300]}")
-    raise RuntimeError("Could not generate script")
+    tried = [GEMINI_MODEL]
+    data, _ = ask_gemini(key, GEMINI_MODEL, body, [10, 30, 60, 120])
+    if data:
+        return data
+    for model in gemini_fallback_models(key, tried):
+        log(f"Trying fallback model {model}")
+        tried.append(model)
+        data, _ = ask_gemini(key, model, body, [15, 45])
+        if data:
+            log(f"Used fallback model {model}. Set the GEMINI_MODEL variable to it if {GEMINI_MODEL} keeps failing.")
+            return data
+    raise RuntimeError(f"Could not generate script with any of: {', '.join(tried)}")
 
 
 async def _tts(text, mp3_path):
