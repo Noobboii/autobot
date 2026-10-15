@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Shorts Bot Settings</title>
+<style>
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; background: #f6f6f3; color: #1d1d1b; }
+  main { max-width: 860px; margin: 0 auto; padding: 28px 16px 120px; }
+  a { color: #1a5fb4; }
+  header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+  h1 { font-size: 21px; margin: 0; letter-spacing: -0.01em; }
+  h1 small { font-weight: 500; color: #6b6b66; font-size: 14px; margin-left: 6px; }
+  h2 { font-size: 15px; margin: 0 0 4px; }
+  .who { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #6b6b66; }
+  .who img { width: 26px; height: 26px; border-radius: 50%; }
+  .card { background: #fff; border: 1px solid #e4e4de; border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
+  .hint { color: #6b6b66; font-size: 13px; margin: 0 0 12px; }
+  .field { margin-top: 14px; }
+  .field:first-of-type { margin-top: 10px; }
+  label.lbl { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+  input[type=text], input[type=password], input[type=time], textarea, select {
+    width: 100%; font: inherit; color: inherit; background: #fff; border: 1px solid #d4d4cc; border-radius: 8px; padding: 9px 11px;
+  }
+  textarea { resize: vertical; min-height: 64px; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid #1a5fb4; outline-offset: -1px; border-color: transparent; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .row2 .field { margin-top: 14px; }
+  button { font: inherit; font-weight: 600; font-size: 14px; border-radius: 8px; padding: 9px 16px; cursor: pointer; border: 1px solid #d4d4cc; background: #fff; color: inherit; }
+  button:hover:not(:disabled) { border-color: #9d9d96; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.primary { background: #1d1d1b; color: #fff; border-color: #1d1d1b; }
+  button.primary:hover:not(:disabled) { background: #3a3a37; }
+  button.link { border: 0; background: none; padding: 0; color: #1a5fb4; font-weight: 500; }
+  button.icon { padding: 6px 10px; font-weight: 500; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chip { font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; border: 1px solid #e0e0d8; background: #f6f6f3; color: #3a3a37; }
+  button.chip { cursor: pointer; }
+  button.chip:hover { border-color: #9d9d96; }
+  .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+  .ok { background: #e7f4ec; color: #146c3a; }
+  .warn { background: #fdf3e1; color: #8a5300; }
+  .bad { background: #fdecea; color: #b42318; }
+  .neutral { background: #eeeee8; color: #55554f; }
+  .status { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .status .k { font-size: 12px; color: #6b6b66; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .status .v { font-size: 16px; font-weight: 650; margin-top: 2px; }
+  .status .s { font-size: 13px; color: #6b6b66; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid #eeeee8; }
+  .actions select { width: auto; }
+  .plat { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eeeee8; }
+  .plat:last-child { border-bottom: 0; }
+  .plat label { display: flex; align-items: center; gap: 10px; font-weight: 600; cursor: pointer; }
+  .plat input { width: 17px; height: 17px; accent-color: #1d1d1b; }
+  .plat .sub { font-weight: 400; font-size: 13px; color: #6b6b66; }
+  .times { display: flex; flex-direction: column; gap: 8px; max-width: 320px; }
+  .time { display: flex; gap: 8px; align-items: center; }
+  .runs { list-style: none; margin: 0; padding: 0; }
+  .runs li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eeeee8; font-size: 14px; }
+  .runs li:last-child { border-bottom: 0; }
+  .runs .when { color: #6b6b66; font-size: 13px; }
+  details summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+  .err { background: #fdecea; color: #b42318; border-radius: 8px; padding: 10px 12px; font-size: 14px; margin-top: 12px; white-space: pre-line; }
+  .steps { margin: 0 0 16px; padding-left: 20px; }
+  .steps li { margin-bottom: 8px; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 14px; margin: 12px 0 16px; }
+  .savebar { position: fixed; left: 0; right: 0; bottom: 0; background: #1d1d1b; color: #fff; padding: 12px 16px; }
+  .savebar .in { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .savebar .what { font-size: 14px; }
+  .savebar .what span { color: #b9b9b2; }
+  .savebar button { background: transparent; color: #fff; border-color: #55554f; }
+  .savebar button.primary { background: #fff; color: #1d1d1b; border-color: #fff; }
+  .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: 84px; background: #1d1d1b; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px; max-width: calc(100% - 32px); box-shadow: 0 6px 24px rgba(0,0,0,0.2); white-space: pre-line; }
+  .toast.error { background: #b42318; }
+  .center { text-align: center; padding: 60px 0; color: #6b6b66; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #141413; color: #ecece7; }
+    a, button.link { color: #8cb4f0; }
+    .card { background: #1d1d1b; border-color: #2e2e2b; }
+    .hint, h1 small, .who, .status .k, .status .s, .plat .sub, .runs .when, .center { color: #9d9d96; }
+    input[type=text], input[type=password], input[type=time], textarea, select { background: #141413; border-color: #3a3a37; color-scheme: dark; }
+    input:focus, textarea:focus, select:focus { outline-color: #8cb4f0; }
+    button { background: #1d1d1b; border-color: #3a3a37; }
+    button.primary { background: #ecece7; color: #141413; border-color: #ecece7; }
+    button.primary:hover:not(:disabled) { background: #d0d0c8; }
+    .chip { background: #262624; border-color: #3a3a37; color: #d0d0c8; }
+    .ok { background: #16321f; color: #7fd49b; }
+    .warn { background: #3a2a10; color: #f0c06a; }
+    .bad { background: #3a1916; color: #f4978e; }
+    .neutral { background: #2a2a27; color: #b9b9b2; }
+    .actions, .plat, .runs li { border-color: #2a2a27; }
+    .plat input { accent-color: #ecece7; }
+    .err { background: #3a1916; color: #f4978e; }
+    .savebar { background: #ecece7; color: #141413; }
+    .savebar .what span { color: #55554f; }
+    .savebar button { color: #141413; border-color: #9d9d96; }
+    .savebar button.primary { background: #141413; color: #ecece7; border-color: #141413; }
+    .toast { background: #ecece7; color: #141413; }
+    .toast.error { background: #f4978e; color: #141413; }
+  }
+  @media (max-width: 640px) {
+    .row2, .status { grid-template-columns: 1fr; }
+    .card { padding: 16px; }
+    .times { max-width: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Shorts Bot <small>Settings</small></h1>
+    <div class="who" id="who" hidden>
+      <img id="avatar" alt="">
+      <span id="login"></span>
+      <button class="link" id="signout" type="button">Sign out</button>
+    </div>
+  </header>
+
+  <div class="center" id="loading">Loading…</div>
+
+  <section id="signin" hidden>
+    <div class="card">
+      <h2>Sign in with a GitHub access key</h2>
+      <p class="hint">This page changes your bot's settings directly on GitHub. Only someone holding an access key for your repo can see or change anything. The key stays in this browser and is never sent anywhere except GitHub.</p>
+      <ol class="steps">
+        <li><a id="tokenlink" href="#" target="_blank" rel="noopener">Create an access key</a>. The permissions are filled in for you.</li>
+        <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick <b id="reponame">your bot's repo</b>.</li>
+        <li>Click <b>Generate token</b>, copy it and paste it below.</li>
+      </ol>
+      <div class="field">
+        <label class="lbl" for="repo">Repository</label>
+        <input type="text" id="repo" placeholder="username/repo" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field">
+        <label class="lbl" for="token">Access key</label>
+        <input type="password" id="token" placeholder="github_pat_…" autocomplete="off" spellcheck="false">
+      </div>
+      <label class="check"><input type="checkbox" id="remember" checked> Keep me signed in on this device</label>
+      <button class="primary" id="signinbtn" type="button">Sign in</button>
+      <div class="err" id="signinerr" hidden></div>
+    </div>
+  </section>
+
+  <section id="app" hidden>
+    <div class="card">
+      <div class="status">
+        <div><div class="k">Schedule</div><div class="v" id="st-state">–</div><div class="s" id="st-state-sub"></div></div>
+        <div><div class="k">Next video</div><div class="v" id="st-next">–</div><div class="s">GitHub can start up to 30 min late</div></div>
+        <div><div class="k">Last run</div><div class="v" id="st-last">–</div><div class="s" id="st-last-sub"></div></div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="postnow" type="button">Post a video now</button>
+        <select id="postwhere" aria-label="Where to post">
+          <option value="">On all set-up platforms</option>
+          <option value="youtube">YouTube only</option>
+          <option value="facebook">Facebook only</option>
+          <option value="instagram">Instagram only</option>
+          <option value="x">X only</option>
+        </select>
+        <button id="pausebtn" type="button">Pause schedule</button>
+        <a href="index.html" style="margin-left:auto;font-size:14px">Public video log ↗</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Content</h2>
+      <p class="hint">What every video is about. Be specific; narrow topics make better videos.</p>
+      <div class="field">
+        <label class="lbl" for="NICHE">Genre</label>
+        <textarea id="NICHE" rows="2"></textarea>
+        <div class="chips" id="presets"></div>
+      </div>
+      <div class="field">
+        <label class="lbl" for="FIXED_TAGS">Tags on every video</label>
+        <input type="text" id="FIXED_TAGS" placeholder="facts, science, didyouknow" autocomplete="off">
+        <p class="hint" style="margin:6px 0 0">Comma separated. The AI still adds its own tags for each topic after these. The first few also become hashtags.</p>
+        <div class="chips" id="tagpreview"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Voice and YouTube</h2>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl" for="voice">Narrator voice</label>
+          <select id="voice"></select>
+          <input type="text" id="voicecustom" placeholder="e.g. en-AU-NatashaNeural" style="margin-top:8px" hidden autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="lbl" for="YT_CATEGORY">YouTube category</label>
+          <select id="YT_CATEGORY"></select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl" for="PRIVACY_STATUS">YouTube visibility</label>
+          <select id="PRIVACY_STATUS">
+            <option value="public">Public</option>
+            <option value="unlisted">Unlisted</option>
+            <option value="private">Private</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Platforms</h2>
+      <p class="hint">Untick a platform to stop posting there. A platform also needs its keys set up before it can post.</p>
+      <div id="platforms"></div>
+    </div>
+
+    <div class="card">
+      <h2>Posting times</h2>
+      <p class="hint" id="tzhint"></p>
+      <div class="times" id="times"></div>
+      <div style="margin-top:10px"><button class="icon" id="addtime" type="button">+ Add a time</button></div>
+      <div class="err" id="scheduleerr" hidden></div>
+    </div>
+
+    <div class="card">
+      <details>
+        <summary>Advanced</summary>
+        <div class="field">
+          <label class="lbl" for="GEMINI_MODEL">Gemini model</label>
+          <input type="text" id="GEMINI_MODEL" autocomplete="off" spellcheck="false">
+          <p class="hint" style="margin:6px 0 0">Only change this if the run log says the model was retired. Leave blank for the default.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+        <h2>Recent runs</h2>
+        <button class="link" id="refreshruns" type="button">Refresh</button>
+      </div>
+      <ul class="runs" id="runs"></ul>
+    </div>
+  </section>
+</main>
+
+<div class="savebar" id="savebar" hidden>
+  <div class="in">
+    <div class="what" id="savewhat"></div>
+    <div style="display:flex;gap:10px">
+      <button id="discard" type="button">Discard</button>
+      <button class="primary" id="save" type="button">Save changes</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+const API = "https://api.github.com";
+const WORKFLOW = "post-short.yml";
+const WORKFLOW_PATH = ".github/workflows/" + WORKFLOW;
+const MAX_TIMES = 6;
+
+const DEFAULTS = {
+  NICHE: "surprising science and nature facts",
+  FIXED_TAGS: "",
+  TTS_VOICE: "en-US-AndrewNeural",
+  YT_CATEGORY: "27",
+  PRIVACY_STATUS: "public",
+  PLATFORMS: "",
+  GEMINI_MODEL: "gemini-3.8-flash",
+};
+const LABELS = {
+  NICHE: "Genre", FIXED_TAGS: "Tags", TTS_VOICE: "Voice", YT_CATEGORY: "Category",
+  PRIVACY_STATUS: "Visibility", PLATFORMS: "Platforms", GEMINI_MODEL: "Gemini model",
+};
+const PRESETS = [
+  "space facts that sound fake but are true",
+  "weird laws and bizarre court cases from around the world",
+  "forgotten inventions and the people behind them",
+  "Indian history stories most people never learned in school",
+  "animal abilities that seem like superpowers",
+  "psychology facts about everyday human behaviour",
+];
+const VOICES = [
+  ["en-US-AndrewNeural", "Andrew · US male, calm"],
+  ["en-US-GuyNeural", "Guy · US male, energetic"],
+  ["en-US-ChristopherNeural", "Christopher · US male, deep"],
+  ["en-US-AriaNeural", "Aria · US female"],
+  ["en-US-JennyNeural", "Jenny · US female, warm"],
+  ["en-GB-RyanNeural", "Ryan · British male"],
+  ["en-GB-SoniaNeural", "Sonia · British female"],
+  ["en-IN-PrabhatNeural", "Prabhat · Indian English male"],
+  ["en-IN-NeerjaNeural", "Neerja · Indian English female"],
+];
+const CATEGORIES = [
+  ["27", "Education"], ["28", "Science & Technology"], ["24", "Entertainment"], ["22", "People & Blogs"],
+  ["15", "Pets & Animals"], ["19", "Travel & Events"], ["26", "Howto & Style"], ["23", "Comedy"],
+  ["17", "Sports"], ["1", "Film & Animation"], ["20", "Gaming"], ["10", "Music"],
+];
+const PLATFORMS = [
+  { id: "youtube", name: "YouTube Shorts", needs: ["YT_CLIENT_ID", "YT_CLIENT_SECRET", "YT_REFRESH_TOKEN"] },
+  { id: "facebook", name: "Facebook Reels", needs: ["META_PAGE_TOKEN", "FB_PAGE_ID"] },
+  { id: "instagram", name: "Instagram Reels", needs: ["META_PAGE_TOKEN", "IG_USER_ID"] },
+  { id: "x", name: "X", needs: ["X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_SECRET"] },
+];
+const CONTENT_KEYS = [["GEMINI_API_KEY", "Gemini (scripts)", true], ["PIXABAY_API_KEY", "Pixabay (footage)", false]];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const store = {
+  get(k) { try { return sessionStorage.getItem(k) ?? localStorage.getItem(k); } catch { return null; } },
+  set(k, v, remember) {
+    try { (remember ? localStorage : sessionStorage).setItem(k, v); if (!remember) localStorage.removeItem(k); } catch {}
+  },
+  clear(k) { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch {} },
+};
+
+const S = {
+  token: null, repo: null, branch: "main",
+  vars: {}, secrets: null, workflow: null, runs: [], schedule: null, fileText: null, fileSha: null,
+  times: [], savedTimes: [], busy: false, pollTimer: null,
+};
+
+class ApiError extends Error {
+  constructor(status, message) { super(message); this.status = status; }
+}
+
+async function api(path, { method = "GET", body } = {}) {
+  const headers = {
+    Authorization: "Bearer " + S.token,
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+  let r;
+  try {
+    r = await fetch(API + path, { method, headers, body: body === undefined ? undefined : JSON.stringify(body), cache: "no-store" });
+  } catch {
+    throw new ApiError(0, "Couldn't reach GitHub. Check your internet connection.");
+  }
+  if (r.status === 204) return null;
+  let data = null;
+  try { data = await r.json(); } catch {}
+  if (!r.ok) throw new ApiError(r.status, (data && data.message) || r.statusText || "Request failed");
+  return data;
+}
+
+function explain(e, what) {
+  if (e.status === 401) return "Your access key is invalid or has expired. Sign out and create a new one.";
+  if (e.status === 403 || e.status === 404) {
+    return `GitHub refused to ${what} (${e.message}). Your access key may be missing a permission, or doesn't include this repo.`;
+  }
+  return `Couldn't ${what}: ${e.message}`;
+}
+
+let toastTimer;
+function toast(msg, isError) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "toast" + (isError ? " error" : "");
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.hidden = true; }, isError ? 9000 : 4000);
+}
+
+function detectRepo() {
+  const q = new URLSearchParams(location.search).get("repo");
+  if (q && /^[\w.-]+\/[\w.-]+$/.test(q)) return q;
+  const saved = store.get("sb_repo");
+  if (saved) return saved;
+  const h = location.hostname;
+  if (h.endsWith(".github.io")) {
+    const owner = h.split(".")[0];
+    const seg = location.pathname.split("/").filter(Boolean)[0];
+    return seg && !seg.includes(".") ? `${owner}/${seg}` : `${owner}/${h}`;
+  }
+  return "";
+}
+
+function tokenUrl(repo) {
+  const [owner] = (repo || "").split("/");
+  const p = new URLSearchParams({
+    name: "Shorts bot settings",
+    description: `Settings page for ${repo || "my shorts bot"}`,
+    expires_in: "366",
+    actions: "write",
+    actions_variables: "write",
+    secrets: "read",
+    contents: "write",
+    workflows: "write",
+  });
+  if (owner) p.set("target_name", owner);
+  return "https://github.com/settings/personal-access-tokens/new?" + p.toString();
+}
+
+const OFFSET = -new Date().getTimezoneOffset();
+const TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { return "local time"; } })();
+const toLocal = u => ((u + OFFSET) % 1440 + 1440) % 1440;
+const toUtc = l => ((l - OFFSET) % 1440 + 1440) % 1440;
+const pad = n => String(n).padStart(2, "0");
+const toInput = m => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
+const fromInput = v => { const [h, m] = v.split(":").map(Number); return h * 60 + m; };
+function fmtClock(m) {
+  const d = new Date(); d.setHours(Math.floor(m / 60), m % 60, 0, 0);
+  return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+}
+function fmtAgo(iso) {
+  const s = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (s < 60) return "just now";
+  if (s < 3600) return Math.floor(s / 60) + " min ago";
+  if (s < 86400) return Math.floor(s / 3600) + " h ago";
+  return Math.floor(s / 86400) + " d ago";
+}
+
+function parseSchedule(text) {
+  const nl = text.includes("\r\n") ? "\r\n" : "\n";
+  const lines = text.split(/\r?\n/);
+  const si = lines.findIndex(l => /^\s*schedule:\s*(#.*)?$/.test(l));
+  if (si < 0) return { ok: false, reason: "The workflow file has no schedule section, so times can't be edited here." };
+  const crons = [];
+  let i = si + 1, indent = null;
+  while (i < lines.length) {
+    const m = lines[i].match(/^(\s*)-\s*cron:\s*["']?([^"'#]*?)["']?\s*(#.*)?$/);
+    if (!m) break;
+    if (indent === null) indent = m[1];
+    crons.push(m[2].trim());
+    i++;
+  }
+  if (!crons.length) return { ok: false, reason: "No cron lines found under schedule." };
+  const utc = [];
+  for (const c of crons) {
+    const p = c.split(/\s+/);
+    if (p.length !== 5 || p.slice(2).some(x => x !== "*") || !/^\d+$/.test(p[0]) || !/^\d+$/.test(p[1])) {
+      return { ok: false, reason: `The schedule "${c}" isn't a simple daily time, so it can't be edited here. Edit ${WORKFLOW_PATH} directly.` };
+    }
+    utc.push(Number(p[1]) * 60 + Number(p[0]));
+  }
+  return { ok: true, nl, lines, start: si + 1, end: i, indent, utc };
+}
+
+function buildSchedule(parsed, utcTimes) {
+  const newLines = [...utcTimes].sort((a, b) => a - b).map(t => `${parsed.indent}- cron: "${t % 60} ${Math.floor(t / 60)} * * *"`);
+  const lines = [...parsed.lines];
+  lines.splice(parsed.start, parsed.end - parsed.start, ...newLines);
+  return lines.join(parsed.nl);
+}
+
+function b64decode(s) {
+  const bin = atob(s.replace(/\s/g, ""));
+  return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+}
+function b64encode(str) {
+  let bin = "";
+  new TextEncoder().encode(str).forEach(b => { bin += String.fromCharCode(b); });
+  return btoa(bin);
+}
+
+function saved(name) { return S.vars[name] ?? ""; }
+function effective(name, v) { const t = (v ?? "").trim(); return t === "" ? DEFAULTS[name] : t; }
+
+function normTags(v) {
+  const seen = new Set(), out = [];
+  for (const t of v.split(",").map(x => x.trim()).filter(Boolean)) {
+    if (!seen.has(t.toLowerCase())) { seen.add(t.toLowerCase()); out.push(t); }
+  }
+  return out.join(",");
+}
+
+function formValue(name) {
+  switch (name) {
+    case "TTS_VOICE": return $("voice").value === "__custom" ? $("voicecustom").value.trim() : $("voice").value;
+    case "FIXED_TAGS": return normTags($("FIXED_TAGS").value);
+    case "PLATFORMS": {
+      const on = PLATFORMS.filter(p => $("pf-" + p.id).checked).map(p => p.id);
+      return on.length === PLATFORMS.length ? "" : on.join(",");
+    }
+    default: return $(name).value.trim();
+  }
+}
+
+function sameTimes(a, b) {
+  const x = [...a].sort((p, q) => p - q), y = [...b].sort((p, q) => p - q);
+  return x.length === y.length && x.every((v, i) => v === y[i]);
+}
+
+function pendingChanges() {
+  const list = [];
+  for (const name of Object.keys(DEFAULTS)) {
+    const now = name === "FIXED_TAGS" ? normTags(formValue(name)) : formValue(name);
+    const before = name === "FIXED_TAGS" ? normTags(saved(name)) : saved(name);
+    if (effective(name, now) !== effective(name, before)) list.push({ name, label: LABELS[name], value: now });
+  }
+  if (S.schedule && S.schedule.ok && !sameTimes(S.times, S.savedTimes)) list.push({ name: "__schedule", label: "Posting times" });
+  return list;
+}
+
+function validate() {
+  if (formValue("NICHE") === "") return "The genre can't be empty.";
+  if ($("voice").value === "__custom" && !/^[a-z]{2,3}-[A-Z]{2,3}-\w+Neural$/.test(formValue("TTS_VOICE"))) {
+    return "Custom voice should look like en-AU-NatashaNeural.";
+  }
+  if (PLATFORMS.every(p => !$("pf-" + p.id).checked)) return "Tick at least one platform.";
+  if (S.schedule && S.schedule.ok) {
+    if (!S.times.length) return "Add at least one posting time, or use Pause schedule instead.";
+    if (new Set(S.times).size !== S.times.length) return "Two posting times are the same.";
+  }
+  return null;
+}
+
+function refreshSaveBar() {
+  const changes = pendingChanges();
+  $("savebar").hidden = changes.length === 0;
+  if (changes.length) {
+    $("savewhat").innerHTML = `${changes.length} unsaved change${changes.length > 1 ? "s" : ""} <span>· ${esc(changes.map(c => c.label).join(", "))}</span>`;
+  }
+  $("save").disabled = S.busy;
+  $("discard").disabled = S.busy;
+}
+
+function renderStatic() {
+  $("presets").innerHTML = PRESETS.map(p => `<button type="button" class="chip" data-preset="${esc(p)}">${esc(p)}</button>`).join("");
+  $("voice").innerHTML = VOICES.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("") + '<option value="__custom">Other voice…</option>';
+  $("YT_CATEGORY").innerHTML = CATEGORIES.map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join("");
+  $("GEMINI_MODEL").placeholder = DEFAULTS.GEMINI_MODEL;
+  $("platforms").innerHTML = PLATFORMS.map(p => `
+    <div class="plat">
+      <label><input type="checkbox" id="pf-${p.id}"> <span>${esc(p.name)}</span></label>
+      <span class="badge neutral" id="pb-${p.id}">…</span>
+    </div>`).join("") + `
+    <div class="plat"><span class="sub">Content keys</span><span class="chips" style="margin:0" id="keybadges"></span></div>`;
+  $("tzhint").textContent = `Times are in your time zone (${TZ}). YouTube allows about ${MAX_TIMES} uploads a day, so up to ${MAX_TIMES} times.`;
+}
+
+function fillForm() {
+  $("NICHE").value = effective("NICHE", saved("NICHE"));
+  $("FIXED_TAGS").value = normTags(saved("FIXED_TAGS")).split(",").filter(Boolean).join(", ");
+  const voice = effective("TTS_VOICE", saved("TTS_VOICE"));
+  if (VOICES.some(([v]) => v === voice)) { $("voice").value = voice; $("voicecustom").value = ""; $("voicecustom").hidden = true; }
+  else { $("voice").value = "__custom"; $("voicecustom").value = voice; $("voicecustom").hidden = false; }
+  const cat = effective("YT_CATEGORY", saved("YT_CATEGORY"));
+  if (![...$("YT_CATEGORY").options].some(o => o.value === cat)) $("YT_CATEGORY").insertAdjacentHTML("beforeend", `<option value="${esc(cat)}">Category ${esc(cat)}</option>`);
+  $("YT_CATEGORY").value = cat;
+  $("PRIVACY_STATUS").value = effective("PRIVACY_STATUS", saved("PRIVACY_STATUS"));
+  const on = saved("PLATFORMS").split(",").map(x => x.trim().toLowerCase()).filter(Boolean);
+  PLATFORMS.forEach(p => { $("pf-" + p.id).checked = on.length === 0 || on.includes(p.id); });
+  $("GEMINI_MODEL").value = saved("GEMINI_MODEL");
+  S.times = [...S.savedTimes];
+  renderTags();
+  renderTimes();
+  refreshSaveBar();
+}
+
+function renderTags() {
+  const tags = normTags($("FIXED_TAGS").value).split(",").filter(Boolean);
+  $("tagpreview").innerHTML = tags.map(t => `<span class="chip">#${esc(t.replace(/\W/g, ""))}</span>`).join("");
+}
+
+function renderTimes() {
+  const sch = S.schedule;
+  $("scheduleerr").hidden = true;
+  if (!sch || !sch.ok) {
+    $("times").innerHTML = "";
+    $("addtime").hidden = true;
+    $("scheduleerr").textContent = sch ? sch.reason : "Couldn't read the workflow file, so posting times can't be edited. Your access key may be missing the Contents permission.";
+    $("scheduleerr").hidden = false;
+    return;
+  }
+  $("addtime").hidden = false;
+  $("addtime").disabled = S.times.length >= MAX_TIMES;
+  $("times").innerHTML = S.times.map((m, i) => `
+    <div class="time">
+      <input type="time" value="${toInput(m)}" data-i="${i}" aria-label="Posting time ${i + 1}" required>
+      <button type="button" class="icon" data-remove="${i}" aria-label="Remove this time" ${S.times.length <= 1 ? "disabled" : ""}>Remove</button>
+    </div>`).join("");
+}
+
+function renderPlatformStatus() {
+  const have = S.secrets ? new Set(S.secrets) : null;
+  for (const p of PLATFORMS) {
+    const b = $("pb-" + p.id);
+    if (!have) { b.className = "badge neutral"; b.textContent = "Status unknown"; b.title = "Your access key can't read secret names"; continue; }
+    const missing = p.needs.filter(n => !have.has(n));
+    if (!missing.length) { b.className = "badge ok"; b.textContent = "Keys set up"; b.title = ""; }
+    else { b.className = "badge neutral"; b.textContent = "Not set up"; b.title = "Missing secrets: " + missing.join(", "); }
+  }
+  $("keybadges").innerHTML = CONTENT_KEYS.map(([n, label, required]) => {
+    if (!have) return `<span class="badge neutral">${esc(label)}: ?</span>`;
+    const ok = have.has(n);
+    const cls = ok ? "ok" : required ? "bad" : "warn";
+    return `<span class="badge ${cls}" title="${esc(n)}">${esc(label)}: ${ok ? "set" : "missing"}</span>`;
+  }).join("");
+}
+
+function nextPost() {
+  if (!S.savedTimes.length) return null;
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const sorted = [...S.savedTimes].sort((a, b) => a - b);
+  const later = sorted.find(m => m > nowMin);
+  return later !== undefined ? { day: "Today", m: later } : { day: "Tomorrow", m: sorted[0] };
+}
+
+function renderStatus() {
+  const wf = S.workflow;
+  const state = wf ? wf.state : null;
+  const active = state === "active";
+  if (!wf) { $("st-state").textContent = "Unknown"; $("st-state-sub").textContent = "Couldn't read the workflow"; }
+  else if (active) { $("st-state").innerHTML = '<span class="badge ok">Active</span>'; $("st-state-sub").textContent = `${S.savedTimes.length} video${S.savedTimes.length === 1 ? "" : "s"} a day`; }
+  else if (state === "disabled_inactivity") { $("st-state").innerHTML = '<span class="badge bad">Stopped by GitHub</span>'; $("st-state-sub").textContent = "Repo was inactive for 60 days. Resume to restart."; }
+  else { $("st-state").innerHTML = '<span class="badge warn">Paused</span>'; $("st-state-sub").textContent = "No videos will be posted"; }
+  $("pausebtn").textContent = active || !wf ? "Pause schedule" : "Resume schedule";
+  $("pausebtn").disabled = !wf || S.busy;
+
+  const np = active ? nextPost() : null;
+  $("st-next").textContent = np ? `${np.day} ${fmtClock(np.m)}` : "–";
+
+  const last = S.runs[0];
+  if (!last) { $("st-last").textContent = "No runs yet"; $("st-last-sub").textContent = ""; }
+  else {
+    const [label, cls] = runLabel(last);
+    $("st-last").innerHTML = `<span class="badge ${cls}">${esc(label)}</span>`;
+    $("st-last-sub").textContent = fmtAgo(last.run_started_at || last.created_at);
+  }
+}
+
+function runLabel(r) {
+  if (r.status !== "completed") return ["Running…", "neutral"];
+  if (r.conclusion === "success") return ["Posted", "ok"];
+  if (r.conclusion === "failure") return ["Failed", "bad"];
+  if (r.conclusion === "cancelled") return ["Cancelled", "neutral"];
+  return [r.conclusion || r.status, "warn"];
+}
+
+function renderRuns() {
+  if (!S.runs.length) { $("runs").innerHTML = '<li><span class="when">No runs yet.</span></li>'; return; }
+  $("runs").innerHTML = S.runs.map(r => {
+    const [label, cls] = runLabel(r);
+    const how = r.event === "schedule" ? "Scheduled" : r.event === "workflow_dispatch" ? "Manual" : r.event;
+    const when = new Date(r.run_started_at || r.created_at);
+    return `<li>
+      <span><span class="badge ${cls}">${esc(label)}</span> <span class="when" title="${esc(when.toLocaleString())}">${esc(how)} · ${esc(fmtAgo(when.toISOString()))}</span></span>
+      <a href="${esc(r.html_url)}" target="_blank" rel="noopener">View log ↗</a>
+    </li>`;
+  }).join("");
+}
+
+async function loadRuns() {
+  try {
+    const d = await api(`/repos/${S.repo}/actions/workflows/${WORKFLOW}/runs?per_page=8`);
+    S.runs = d.workflow_runs || [];
+  } catch (e) { S.runs = []; }
+  renderRuns();
+  renderStatus();
+  managePolling();
+}
+
+function managePolling() {
+  const running = S.runs.some(r => r.status !== "completed");
+  if (running && !S.pollTimer) {
+    const started = Date.now();
+    S.pollTimer = setInterval(() => {
+      if (Date.now() - started > 20 * 60 * 1000) { clearInterval(S.pollTimer); S.pollTimer = null; return; }
+      if (document.visibilityState === "visible") loadRuns();
+    }, 20000);
+  } else if (!running && S.pollTimer) {
+    clearInterval(S.pollTimer); S.pollTimer = null;
+  }
+}
+
+async function loadAll() {
+  let repo;
+  try {
+    repo = await api(`/repos/${S.repo}`);
+  } catch (e) {
+    if (e.status === 401 || e.status === 0) throw new ApiError(e.status, explain(e, "open the repo"));
+    throw new ApiError(e.status, `Your access key can't open ${S.repo}. When creating it, choose "Only select repositories" and pick this repo. Also check the repo name above.`);
+  }
+  S.branch = repo.default_branch || "main";
+  try {
+    const v = await api(`/repos/${S.repo}/actions/variables?per_page=30`);
+    S.vars = Object.fromEntries((v.variables || []).map(x => [x.name.toUpperCase(), x.value]));
+  } catch (e) {
+    throw new ApiError(e.status, explain(e, "read your settings") + "\nThe key needs the Variables permission (read and write).");
+  }
+  const [sec, wf, file] = await Promise.allSettled([
+    api(`/repos/${S.repo}/actions/secrets?per_page=100`),
+    api(`/repos/${S.repo}/actions/workflows/${WORKFLOW}`),
+    api(`/repos/${S.repo}/contents/${WORKFLOW_PATH}?ref=${encodeURIComponent(S.branch)}`),
+  ]);
+  S.secrets = sec.status === "fulfilled" ? (sec.value.secrets || []).map(s => s.name.toUpperCase()) : null;
+  S.workflow = wf.status === "fulfilled" ? wf.value : null;
+  if (file.status === "fulfilled") {
+    S.fileSha = file.value.sha;
+    S.fileText = b64decode(file.value.content || "");
+    S.schedule = parseSchedule(S.fileText);
+    S.savedTimes = S.schedule.ok ? S.schedule.utc.map(toLocal) : [];
+  } else {
+    S.schedule = null; S.fileText = null; S.fileSha = null; S.savedTimes = [];
+  }
+}
+
+async function enterApp() {
+  $("loading").hidden = false;
+  $("signin").hidden = true;
+  try {
+    const user = await api("/user").catch(() => null);
+    await loadAll();
+    if (user) {
+      $("login").textContent = user.login;
+      if (user.avatar_url) $("avatar").src = user.avatar_url; else $("avatar").hidden = true;
+    } else { $("avatar").hidden = true; $("login").textContent = S.repo; }
+    $("who").hidden = false;
+    $("loading").hidden = true;
+    $("app").hidden = false;
+    fillForm();
+    renderPlatformStatus();
+    renderStatus();
+    await loadRuns();
+  } catch (e) {
+    $("loading").hidden = true;
+    store.clear("sb_token");
+    S.token = null;
+    showSignin(e.message);
+  }
+}
+
+function showSignin(error) {
+  $("app").hidden = true;
+  $("who").hidden = true;
+  $("signin").hidden = false;
+  $("repo").value = S.repo || detectRepo();
+  updateTokenLink();
+  $("signinerr").hidden = !error;
+  $("signinerr").textContent = error || "";
+}
+
+function updateTokenLink() {
+  const repo = $("repo").value.trim();
+  $("tokenlink").href = tokenUrl(repo);
+  $("reponame").textContent = repo.split("/")[1] || "your bot's repo";
+}
+
+async function saveAll() {
+  const problem = validate();
+  if (problem) { toast(problem, true); return; }
+  const changes = pendingChanges();
+  if (!changes.length) return;
+  S.busy = true; refreshSaveBar();
+  $("save").textContent = "Saving…";
+  const errors = [];
+  for (const c of changes.filter(c => c.name !== "__schedule")) {
+    const want = c.name === "FIXED_TAGS" ? normTags(c.value) : c.value.trim();
+    const keep = want !== "" && want !== DEFAULTS[c.name];
+    const exists = Object.prototype.hasOwnProperty.call(S.vars, c.name);
+    try {
+      if (!keep && exists) await api(`/repos/${S.repo}/actions/variables/${c.name}`, { method: "DELETE" });
+      else if (keep && exists) await api(`/repos/${S.repo}/actions/variables/${c.name}`, { method: "PATCH", body: { name: c.name, value: want } });
+      else if (keep) await api(`/repos/${S.repo}/actions/variables`, { method: "POST", body: { name: c.name, value: want } });
+    } catch (e) { errors.push(explain(e, `save ${c.label}`)); }
+  }
+  if (changes.some(c => c.name === "__schedule")) {
+    try { await saveSchedule(); }
+    catch (e) { errors.push(explain(e, "save posting times") + (e.status === 403 || e.status === 404 ? "\nThe key needs Contents and Workflows permissions (read and write)." : "")); }
+  }
+  try { await loadAll(); } catch {}
+  S.busy = false;
+  $("save").textContent = "Save changes";
+  fillForm();
+  renderPlatformStatus();
+  renderStatus();
+  if (errors.length) toast(errors.join("\n"), true);
+  else toast("Saved. Changes apply from the next video.");
+}
+
+async function saveSchedule(retry = true) {
+  const utc = S.times.map(toUtc);
+  const text = buildSchedule(S.schedule, utc);
+  const times = [...S.times].sort((a, b) => a - b).map(fmtClock).join(", ");
+  try {
+    await api(`/repos/${S.repo}/contents/${WORKFLOW_PATH}`, {
+      method: "PUT",
+      body: { message: `Set posting times: ${times} (${TZ})`, content: b64encode(text), sha: S.fileSha, branch: S.branch },
+    });
+  } catch (e) {
+    if (retry && (e.status === 409 || e.status === 422)) {
+      const f = await api(`/repos/${S.repo}/contents/${WORKFLOW_PATH}?ref=${encodeURIComponent(S.branch)}`);
+      S.fileSha = f.sha;
+      S.schedule = parseSchedule(b64decode(f.content || ""));
+      if (!S.schedule.ok) throw new ApiError(0, S.schedule.reason);
+      return saveSchedule(false);
+    }
+    throw e;
+  }
+}
+
+async function postNow() {
+  if (pendingChanges().length && !confirm("You have unsaved changes. This video will use your saved settings. Post anyway?")) return;
+  const where = $("postwhere").value;
+  $("postnow").disabled = true;
+  try {
+    await api(`/repos/${S.repo}/actions/workflows/${WORKFLOW}/dispatches`, {
+      method: "POST",
+      body: { ref: S.branch, inputs: { platforms: where } },
+    });
+    toast("Started. The video takes about 5 minutes to make and post.");
+    setTimeout(loadRuns, 4000);
+  } catch (e) {
+    toast(explain(e, "start a run") + (e.status === 403 ? "\nThe key needs the Actions permission (read and write)." : ""), true);
+  }
+  setTimeout(() => { $("postnow").disabled = false; }, 4000);
+}
+
+async function togglePause() {
+  const active = S.workflow && S.workflow.state === "active";
+  if (active && !confirm("Pause the schedule? No videos will be posted until you resume.")) return;
+  S.busy = true; renderStatus();
+  try {
+    await api(`/repos/${S.repo}/actions/workflows/${WORKFLOW}/${active ? "disable" : "enable"}`, { method: "PUT" });
+    S.workflow = await api(`/repos/${S.repo}/actions/workflows/${WORKFLOW}`);
+    toast(active ? "Schedule paused." : "Schedule resumed.");
+  } catch (e) {
+    toast(explain(e, active ? "pause the schedule" : "resume the schedule"), true);
+  }
+  S.busy = false;
+  renderStatus();
+}
+
+function bind() {
+  $("repo").addEventListener("input", updateTokenLink);
+  $("signinbtn").addEventListener("click", () => {
+    const repo = $("repo").value.trim().replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "");
+    const token = $("token").value.trim();
+    if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) { showSignin("Enter the repo as username/repo, for example noobboii/autobot."); return; }
+    if (!token) { showSignin("Paste your access key."); $("repo").value = repo; return; }
+    const remember = $("remember").checked;
+    S.repo = repo; S.token = token;
+    store.set("sb_token", token, remember);
+    store.set("sb_repo", repo, true);
+    $("token").value = "";
+    enterApp();
+  });
+  $("token").addEventListener("keydown", e => { if (e.key === "Enter") $("signinbtn").click(); });
+  $("signout").addEventListener("click", () => {
+    store.clear("sb_token");
+    S.token = null;
+    if (S.pollTimer) { clearInterval(S.pollTimer); S.pollTimer = null; }
+    $("savebar").hidden = true;
+    showSignin();
+  });
+
+  document.addEventListener("input", e => {
+    if (e.target.closest("#app")) {
+      if (e.target.id === "FIXED_TAGS") renderTags();
+      if (e.target.matches("#times input[type=time]") && e.target.value) {
+        S.times[Number(e.target.dataset.i)] = fromInput(e.target.value);
+      }
+      refreshSaveBar();
+    }
+  });
+  document.addEventListener("change", e => {
+    if (e.target.id === "voice") {
+      $("voicecustom").hidden = e.target.value !== "__custom";
+      if (e.target.value === "__custom") $("voicecustom").focus();
+    }
+    if (e.target.closest("#app")) refreshSaveBar();
+  });
+  $("presets").addEventListener("click", e => {
+    const b = e.target.closest("[data-preset]");
+    if (!b) return;
+    $("NICHE").value = b.dataset.preset;
+    refreshSaveBar();
+  });
+  $("times").addEventListener("click", e => {
+    const b = e.target.closest("[data-remove]");
+    if (!b) return;
+    S.times.splice(Number(b.dataset.remove), 1);
+    renderTimes(); refreshSaveBar();
+  });
+  $("addtime").addEventListener("click", () => {
+    if (S.times.length >= MAX_TIMES) return;
+    let m = 12 * 60;
+    while (S.times.includes(m)) m = (m + 60) % 1440;
+    S.times.push(m);
+    renderTimes(); refreshSaveBar();
+  });
+  $("discard").addEventListener("click", fillForm);
+  $("save").addEventListener("click", saveAll);
+  $("postnow").addEventListener("click", postNow);
+  $("pausebtn").addEventListener("click", togglePause);
+  $("refreshruns").addEventListener("click", loadRuns);
+  window.addEventListener("beforeunload", e => {
+    if (!$("app").hidden && pendingChanges().length) { e.preventDefault(); e.returnValue = ""; }
+  });
+}
+
+renderStatic();
+bind();
+S.repo = detectRepo();
+S.token = store.get("sb_token");
+if (S.token && S.repo) enterApp();
+else { $("loading").hidden = true; showSignin(); }
+</script>
+</body>
+</html>

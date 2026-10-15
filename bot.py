@@ -342,6 +342,11 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         workdir = Path(tmp)
         meta = generate_script(history)
+        fixed = [t.strip() for t in (os.environ.get("FIXED_TAGS") or "").split(",") if t.strip()]
+        if fixed:
+            ai_tags = [t for t in meta.get("tags", []) if t.lower() not in {f.lower() for f in fixed}]
+            meta["tags"] = fixed + ai_tags
+            log(f"Tags: {meta['tags']}")
         log(f"Script: {meta['title']}")
         audio = workdir / "voice.mp3"
         words = text_to_speech(meta["script"], audio)

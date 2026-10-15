@@ -32,7 +32,7 @@ def publish(video_path, meta):
     if meta.get("footage_credit"):
         description += f"\n\nFootage: {meta['footage_credit']}"
     body = {
-        "snippet": {"title": title[:100], "description": description[:4900], "tags": tags, "categoryId": "27"},
+        "snippet": {"title": title[:100], "description": description[:4900], "tags": tags, "categoryId": os.environ.get("YT_CATEGORY") or "27"},
         "status": {
             "privacyStatus": os.environ.get("PRIVACY_STATUS") or "public",
             "selfDeclaredMadeForKids": False,

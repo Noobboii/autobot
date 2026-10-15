@@ -83,12 +83,27 @@ Skip this section and the bot simply won't post to X.
 
 ---
 
-## Settings (Settings → Secrets and variables → Actions → **Variables**)
+## Settings page
+
+`https://<your-username>.github.io/<repo>/admin.html` lets you change the genre, tags, voice, platforms and posting times, post a video on demand, pause the schedule, and see recent runs.
+
+The page itself is public, but it does nothing without a GitHub access key for your repo, and that key is only ever stored in your own browser. To sign in:
+1. Click **Create an access key** on the page. The permissions are pre-filled.
+2. Under **Repository access**, choose **Only select repositories** and pick this repo.
+3. Click **Generate token** and paste the key into the page.
+
+The key expires after a year. When it does, the page asks you to sign in again. The bot keeps posting either way, since it doesn't use this key.
+
+## Settings by hand (Settings → Secrets and variables → Actions → **Variables**)
 | Variable | Example | Default |
 |----------|---------|---------|
 | `NICHE` | `ancient history mysteries` | `surprising science and nature facts` |
 | `PRIVACY_STATUS` | `unlisted` | `public` (YouTube only) |
 | `PLATFORMS` | `youtube,facebook` | every platform with credentials |
+| `FIXED_TAGS` | `facts,science` | none (AI tags only) |
+| `TTS_VOICE` | `en-GB-RyanNeural` | `en-US-AndrewNeural` |
+| `YT_CATEGORY` | `28` | `27` (Education) |
+| `GEMINI_MODEL` | `gemini-3.8-flash` | `gemini-3.8-flash` |
 
 ## Maintenance you can expect
 - **A failure email:** open the failed run and read which platform failed and why. Common causes are an expired token (redo that platform's token step) or a free-tier limit change.

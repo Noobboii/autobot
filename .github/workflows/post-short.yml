@@ -53,6 +53,9 @@ jobs:
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           NICHE: ${{ vars.NICHE }}
+          TTS_VOICE: ${{ vars.TTS_VOICE }}
+          FIXED_TAGS: ${{ vars.FIXED_TAGS }}
+          YT_CATEGORY: ${{ vars.YT_CATEGORY }}
           PRIVACY_STATUS: ${{ vars.PRIVACY_STATUS }}
           PLATFORMS: ${{ github.event.inputs.platforms || vars.PLATFORMS }}
         run: python bot.py
