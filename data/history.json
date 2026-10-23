@@ -174,5 +174,16 @@
         "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
       }
     }
+  },
+  {
+    "date": "2026-10-23T17:33:57+00:00",
+    "title": "The Terrifying Noise the Sun Would Make on Earth",
+    "duration": 54.2,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
+      }
+    }
   }
 ]
