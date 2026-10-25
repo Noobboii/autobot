@@ -207,5 +207,16 @@
         "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
       }
     }
+  },
+  {
+    "date": "2026-10-25T08:33:34+00:00",
+    "title": "Why the Moon Is Slowly Escaping Earth",
+    "duration": 54.7,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
+      }
+    }
   }
 ]
