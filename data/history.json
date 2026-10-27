@@ -229,5 +229,16 @@
         "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
       }
     }
+  },
+  {
+    "date": "2026-10-27T09:20:21+00:00",
+    "title": "This Giant Planet Would Actually Float in Water!",
+    "duration": 47.4,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
+      }
+    }
   }
 ]
