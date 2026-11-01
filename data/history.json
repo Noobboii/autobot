@@ -339,5 +339,16 @@
         "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
       }
     }
+  },
+  {
+    "date": "2026-11-01T10:36:15+00:00",
+    "title": "How Voyager Phones Earth with a Refrigerator Bulb",
+    "duration": 55.8,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
+      }
+    }
   }
 ]
