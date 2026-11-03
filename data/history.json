@@ -394,5 +394,16 @@
         "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
       }
     }
+  },
+  {
+    "date": "2026-11-03T20:01:45+00:00",
+    "title": "The Sun Is Losing 4 Million Tons of Mass Every Second",
+    "duration": 51.7,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
+      }
+    }
   }
 ]
