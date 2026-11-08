@@ -460,5 +460,16 @@
         "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
       }
     }
+  },
+  {
+    "date": "2026-11-08T10:48:39+00:00",
+    "title": "Why Jupiter Doesn't Actually Orbit the Sun",
+    "duration": 50.9,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
+      }
+    }
   }
 ]
