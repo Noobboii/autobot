@@ -471,5 +471,16 @@
         "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
       }
     }
+  },
+  {
+    "date": "2026-11-08T18:16:32+00:00",
+    "title": "The Solar System's Tallest Mountain Is Invisible",
+    "duration": 48.5,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
+      }
+    }
   }
 ]
