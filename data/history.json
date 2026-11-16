@@ -636,5 +636,16 @@
         "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
       }
     }
+  },
+  {
+    "date": "2026-11-16T22:48:35+00:00",
+    "title": "Why Astronauts Can Never Burp in Space",
+    "duration": 55.1,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
+      }
+    }
   }
 ]
