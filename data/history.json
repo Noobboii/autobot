@@ -702,5 +702,16 @@
         "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
       }
     }
+  },
+  {
+    "date": "2026-11-21T20:06:09+00:00",
+    "title": "The Bizarre Allergy Astronauts Caught on the Moon",
+    "duration": 52.3,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
+      }
+    }
   }
 ]
