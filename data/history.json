@@ -812,5 +812,16 @@
         "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
       }
     }
+  },
+  {
+    "date": "2026-11-27T12:34:56+00:00",
+    "title": "The Element Discovered in Space Before Earth!",
+    "duration": 52.4,
+    "platforms": {
+      "youtube": {
+        "status": "failed",
+        "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})"
+      }
+    }
   }
 ]
